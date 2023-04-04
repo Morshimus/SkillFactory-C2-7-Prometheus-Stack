@@ -1,5 +1,7 @@
 # SkillFactory-C2-7-Prometheus-Stack
 
+## Задание
+
 * [x] - :one: **Разверните Prometheus Stack через docker-compose, в котором будет:**
     - *Prometheus*
     - *Grafana*
