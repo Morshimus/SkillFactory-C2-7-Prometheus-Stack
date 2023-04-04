@@ -212,7 +212,8 @@ services:
 
 * [x] - :two: **Соберите метрики с ~~https://.skillfactory.ru~~  https://apps.skillfactory.ru через Blackbox, соберите метрики с вашего сервера через Node Exporter.**
 > Сделано, как доказательсто предоставляю скриншот с probe.
-
+ ![image](https://ams03pap004files.storage.live.com/y4mQf28aHQms9mQv8Iy5JEgFyt-BaEHvlfypChUb7jgB0Wf0HMJtFEdkjHofimL_hxhFz2h-jlwFraYKE3_CqrBOivFwcjGGxdc8FoA5Ab1_hSu9qKTJ0MSXawIBX4p-HPDIteJCNAvUBgXM0Y5JAOgoLFCezcCSUceG3pddXNB_fcxkwdQLJKtk6t3Vk3C502F?encodeFailures=1&width=1917&height=603)
+ 
 * [x] - :three: **Создайте dashboard в Grafana, в котором будут отображены следующие метрики:**
 
 На вашем сервере (или локальной машине):
@@ -238,8 +239,8 @@ services:
   ![image](https://ams03pap004files.storage.live.com/y4mrQ5Vprg3P5EZYWrnTO6FNkzUu5rwMsoF91GFuwO9fNY4wn_C-dWMWFdJ_x1eryZfhVlYhQmwX_OpI346aQsjSUNKTDEcC2F9FW2gq6YwtzTWRluox2bINdwHf40na4jXkbK7yWjBABPIrOnqanNAp2kZNAwOY_Wy9MlDodfm4rLK5YLwHtw161ar175hFiDd?encodeFailures=1&width=1272&height=332)
 
 
-4. Добавьте алерты в AlertManager на следующие события:
+* [x] - :four: **Добавьте алерты в AlertManager на следующие события:**
 
-изменился статус-код сайта lms.skillfactory.ru;
-задержка превышает 5 секунд lms.skillfactory.ru;
-сервер перезагрузился (через метрику Uptime).
+    - изменился статус-код сайта lms.skillfactory.ru;
+    - задержка превышает 5 секунд lms.skillfactory.ru;
+    - сервер перезагрузился (через метрику Uptime).
