@@ -241,6 +241,84 @@ services:
 
 * [x] - :four: **Добавьте алерты в AlertManager на следующие события:**
 
-    - изменился статус-код сайта lms.skillfactory.ru;
-    - задержка превышает 5 секунд lms.skillfactory.ru;
+    - изменился статус-код сайта ~~lms~~apps.skillfactory.ru;
+    - задержка превышает 5 секунд ~~lms~~apps.skillfactory.ru;
     - сервер перезагрузился (через метрику Uptime).
+
+> Сделано, в качестве теста я перезагрузил свой Laptop :smile:
+
+```yaml
+groups:
+- name: targets
+  rules:
+  - alert: monitor_service_down
+    expr: up == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Monitor service non-operational"
+      description: "Service {{ $labels.instance }} is down."
+
+- name: host
+  rules:
+  - alert: high_cpu_load
+    expr: node_load1 > 1.5
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Server under high load"
+      description: "Docker host is under high load, the avg load 1m is at {{ $value}}. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
+
+  - alert: high_memory_load
+    expr: (sum(node_memory_MemTotal_bytes) - sum(node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) ) / sum(node_memory_MemTotal_bytes) * 100 > 85
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Server memory is almost full"
+      description: "Docker host memory usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
+
+  - alert: high_storage_load
+    expr: (node_filesystem_size_bytes{fstype="aufs"} - node_filesystem_free_bytes{fstype="aufs"}) / node_filesystem_size_bytes{fstype="aufs"}  * 100 > 85
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Server storage is almost full"
+      description: "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
+
+  - alert: server_was_rebooted
+    expr: node_time_seconds - node_boot_time_seconds  < 300
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Server was rebooted"
+      description: "Server was rebooted. Uptime is less than 5 minutes"
+
+- name: apps.skillfactory.ru
+  rules:
+  - alert: skillfactory_not_200_reply
+    expr: probe_http_status_code{instance="https://apps.skillfactory.ru/"} != 200
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Skillfactory lms down"
+      description: "Skillfactory lms web app is not replying for more than 30 seconds."
+
+  - alert: skillfactory_reply_delay_greater_than_5_seconds 
+    expr: probe_http_duration_seconds{instance="https://apps.skillfactory.ru/"} > 5
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Skillfactory lms delay greater than 5 seconds"
+      description: "Skillfactory lms common reply delay more than 5 seconds last 30 seconds"
+
+
+```
+
+![image](https://ams03pap004files.storage.live.com/y4m9PcWBqyo5SkU_LJAPwB7Vj4t4hNP9v1NzzVixI30QzfaKDq9_OeIN3ik9FU3AhS34KDrftZO3BNjMHDNaSQ9tFhShhZXSsuatNFBM3p7PKWIEu-0VZBpoD2zH9HULnCbMLjSGmFhiiYB-Qq5EUXjJ7Uj1G6F8HngPgbmVlhz4HqBBhKqVxLIkVNtjdeL-3Rq?encodeFailures=1&width=1046&height=801)
