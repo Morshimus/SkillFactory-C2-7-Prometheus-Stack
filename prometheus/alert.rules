@@ -51,7 +51,7 @@ groups:
 - name: apps.skillfactory.ru
   rules:
   - alert: skillfactory_not_200_reply
-    expr: probe_http_status_code{instance="https://apps.skillfactory.ru/"} != 200
+    expr: probe_http_status_code{instance="https://apps.skillfactory.ru"} != 200
     for: 30s
     labels:
       severity: critical
@@ -60,7 +60,7 @@ groups:
       description: "Skillfactory lms web app is not replying for more than 30 seconds."
 
   - alert: skillfactory_reply_delay_greater_than_5_seconds 
-    expr: probe_http_duration_seconds{instance="https://apps.skillfactory.ru/"} > 5
+    expr: probe_http_duration_seconds{instance="https://apps.skillfactory.ru"} > 5
     for: 30s
     labels:
       severity: warning
